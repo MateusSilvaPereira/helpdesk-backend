@@ -9,7 +9,7 @@ import com.msp.helpdesk.services.DBService;
 
 @Configuration
 @Profile("test")
-public class Config {
+public class TestConfig {
 
 	@Autowired
 	private DBService dbService;

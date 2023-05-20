@@ -34,7 +34,7 @@ public class Tecnico extends Pessoa{
 		addPerfis(Perfil.CLIENTE);
 	}
 
-	public Tecnico(TecnicoDTO obj) {
+	public Tecnico(TecnicoDTO obj) { 
 		super();
 		this.id = obj.getId();
 		this.nome = obj.getNome();

@@ -17,11 +17,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.msp.helpdesk.domain.dtos.CredenciaisDTO;
-
-public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter{
+public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
 	private AuthenticationManager authenticationManager;
-	
 	private JWTUtil jwtUtil;
 
 	public JWTAuthenticationFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil) {
@@ -29,16 +27,14 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		this.authenticationManager = authenticationManager;
 		this.jwtUtil = jwtUtil;
 	}
-	
-	// Tentativa de authenticação
+
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
-		
 		try {
 			CredenciaisDTO creds = new ObjectMapper().readValue(request.getInputStream(), CredenciaisDTO.class);
-			UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-					creds.getEmail(), creds.getSenha(), new ArrayList<>());
+			UsernamePasswordAuthenticationToken authenticationToken = 
+					new UsernamePasswordAuthenticationToken(creds.getEmail(), creds.getSenha(), new ArrayList<>());
 			Authentication authentication = authenticationManager.authenticate(authenticationToken);
 			return authentication;
 		} catch (Exception e) {
@@ -46,19 +42,21 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		}
 	}
 	
-	// Sucesso na Authenticação
 	
 	@Override
-	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
-			Authentication authResult) throws IOException, ServletException {
-		
-		String username = ((UserSpringSecurity) authResult.getPrincipal()).getUsername();
+    protected void successfulAuthentication(HttpServletRequest req,
+                                            HttpServletResponse response,
+                                            FilterChain chain,
+                                            Authentication auth) throws IOException, ServletException {
+	
+		String username = ((UserSpringSecurity) auth.getPrincipal()).getUsername();
 		String token = jwtUtil.generateToken(username);
-		response.setHeader("access-control-expose-headres", "Authorization");
-		response.setHeader("Authorization", "Bearer " + token);
+		response.setHeader("Access-Control-Allow-Origin", "*");
+        	response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
+        	response.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type, enctype, Location");
+        	response.setHeader("Authorization", "Bearer " + token);
 	}
 	
-	// Falha na Authenticação
 	@Override
 	protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException failed) throws IOException, ServletException {
@@ -67,7 +65,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		response.setContentType("application/json");
 		response.getWriter().append(json());
 	}
-	
+
 	private CharSequence json() {
 		long date = new Date().getTime();
 		return "{"
@@ -77,4 +75,5 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 				+ "\"message\": \"Email ou senha inválidos\", "
 				+ "\"path\": \"/login\"}";
 	}
+	
 }

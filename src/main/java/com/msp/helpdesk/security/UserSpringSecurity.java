@@ -10,15 +10,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.msp.helpdesk.domain.enums.Perfil;
 
-public class UserSpringSecurity implements UserDetails{
-
+public class UserSpringSecurity implements UserDetails {
 	private static final long serialVersionUID = 1L;
 	
 	private Integer id;
 	private String email;
 	private String senha;
-	
-	
+	private Collection<? extends GrantedAuthority> authorities;
+
 	public UserSpringSecurity(Integer id, String email, String senha, Set<Perfil> perfis) {
 		super();
 		this.id = id;
@@ -30,8 +29,6 @@ public class UserSpringSecurity implements UserDetails{
 	public Integer getId() {
 		return id;
 	}
-
-	private Collection<? extends GrantedAuthority> authorities;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

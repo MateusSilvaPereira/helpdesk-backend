@@ -24,7 +24,7 @@ import com.msp.helpdesk.services.ChamadoService;
 @RestController
 @RequestMapping("/chamados")
 public class ChamadoResource {
-
+ 
 	@Autowired
 	private ChamadoService service;
 

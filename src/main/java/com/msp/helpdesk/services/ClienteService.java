@@ -18,7 +18,7 @@ import com.msp.helpdesk.services.exceptions.DataIntegrityViolationException;
 import com.msp.helpdesk.services.exceptions.ObjectNotFoundException;
 
 @Service
-public class ClienteService {
+public class ClienteService { 
 
 	@Autowired
 	private ClienteRepository repository;
@@ -34,14 +34,14 @@ public class ClienteService {
 	}
 
 	public List<Cliente> findAll() {
-		return repository.findAll();
+		return repository.findAll(); 
 	}
 
 	public Cliente create(ClienteDTO objDTO) {
 		objDTO.setId(null);
 		objDTO.setSenha(encoder.encode(objDTO.getSenha()));
 		validaCpfEEmail(objDTO);
-		Cliente newObj = new Cliente(objDTO);
+		Cliente newObj = new Cliente(objDTO); 
 		return repository.save(newObj);
 	}
 
@@ -66,7 +66,7 @@ public class ClienteService {
 			throw new DataIntegrityViolationException("Cliente possui ordens de serviço e não pode ser deletado!");
 		}
 		else {
-			repository.deleteById(id);
+			repository.deleteById(id); 
 		}
 	}
 
@@ -74,7 +74,7 @@ public class ClienteService {
 		Optional<Pessoa> obj = pessoaRepository.findByCpf(objDTO.getCpf());
 		if (obj.isPresent() && obj.get().getId() != objDTO.getId()) {
 			throw new DataIntegrityViolationException("CPF já cadastrado no sistema!");
-		}
+		} 
 		obj = pessoaRepository.findByEmail(objDTO.getEmail());
 
 		if (obj.isPresent() && obj.get().getId() != objDTO.getId()) {

@@ -3,22 +3,18 @@ package com.msp.helpdesk.services;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -37,33 +33,25 @@ import com.msp.helpdesk.repositories.TecnicoRepository;
 import com.msp.helpdesk.services.exceptions.ObjectNotFoundException;
 
 @SpringBootTest
-@ExtendWith(MockitoExtension.class)
+//@ExtendWith(MockitoExtension.class)
 class ChamadoServiceTest {
 
 	@Autowired
 	private BCryptPasswordEncoder encoder;
-
 	@Mock
 	private ClienteService clienteService;
-
 	@Mock
 	private TecnicoDTO tecnicoDTO;
-
 	@Mock
 	private ClienteDTO clienteDTO;
-
 	@Mock
 	private TecnicoService tecnicoService;
-
 	@InjectMocks
 	private ChamadoService chamadoservice;
-
 	@Mock
 	private ChamadoRepository repository;
-
 	@Mock
 	private ClienteRepository clienteRepository;
-
 	@Mock
 	private TecnicoRepository tecnicoRepository;
 
@@ -77,14 +65,14 @@ class ChamadoServiceTest {
 	private Tecnico tecnico;
 	private Chamado chamado;
 	private ChamadoDTO chamadoDTO;
-	private Optional<Chamado> optionalChamado;
+	private Optional<Chamado> optionalChamado; 
 
 	@BeforeEach
 	void setUp() {
 		MockitoAnnotations.openMocks(this);
 		startChamado();
 	}
-
+ 
 	@Test
 	@DisplayName("Test FindById")
 	void whenFindByIdThenReturnAnChamadoIntance() {
@@ -113,14 +101,14 @@ class ChamadoServiceTest {
 	void whenNotFindById_thenReturnObjectNotFoundException() {
 		
 		when(repository.findById(anyInt())).thenThrow(new ObjectNotFoundException("Objeto não encontrado! ID: " + ID));
-		chamado.setId(ID);
+		chamado.setId(ID); 
 		try {
 			chamadoservice.findById(ID);
 		} catch(Exception ex) {
 			assertEquals(ObjectNotFoundException.class, ex.getClass());
 			assertEquals("Objeto não encontrado! ID: " + ID, ex.getMessage());
 		}	
-	}
+	} 
 
 	@Test
 	@DisplayName("test findAllChamado")
@@ -144,7 +132,7 @@ class ChamadoServiceTest {
 
 	@Test
 	@DisplayName("test createChamado")
-	void wheCreateNewChamdoThenReturnSuccess() {
+	void wheCreateNewChamadoThenReturnSuccess() {
 		
 		when(repository.save(any())).thenReturn(chamado);
 		Chamado response = chamadoservice.create(chamadoDTO);
@@ -169,9 +157,9 @@ class ChamadoServiceTest {
 		chamado.setId(ID);
 		when(repository.findById(anyInt())).thenReturn(Optional.of(chamado));
 		
-		chamado.setTitulo("Atualizado");
+		chamado.setTitulo("Atualizado"); 
 		
-		when(repository.save(chamado)).thenReturn(chamado);
+		when(repository.save(chamado)).thenReturn(chamado); 
 		
 		Chamado response = chamadoservice.update(ID,chamadoDTO);
 		
@@ -185,12 +173,12 @@ class ChamadoServiceTest {
 	    assertEquals(OBSERVACOES, response.getObservacoes());
 	    assertEquals(PRIORIDADE, response.getPrioridade());
 	    assertEquals(tecnico, response.getTecnico());
-	    assertEquals(cliente, response.getCliente());
+	    assertEquals(cliente, response.getCliente()); 
 	
 	} 
 
 	private void startChamado() {
-
+ 
 		tecnico = new Tecnico(ID, "Mateus", "778.899.120-13", "mateussilvapereira@gmail.com", encoder.encode("123"));
 		cliente = new Cliente(ID, "Antonio", "111.661.890-74", "einstein@mail.com", encoder.encode("123"));
 

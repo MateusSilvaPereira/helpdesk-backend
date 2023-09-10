@@ -49,9 +49,6 @@ public class ChamadoDTO implements Serializable{
 	}
 	
 
-	public ChamadoDTO() {
-		super();
-	}
 
 
 

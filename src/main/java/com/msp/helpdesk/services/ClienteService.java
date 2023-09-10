@@ -9,11 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.msp.helpdesk.domain.Pessoa;
 import com.msp.helpdesk.domain.Cliente;
+import com.msp.helpdesk.domain.Pessoa;
 import com.msp.helpdesk.domain.dtos.ClienteDTO;
-import com.msp.helpdesk.repositories.PessoaRepository;
 import com.msp.helpdesk.repositories.ClienteRepository;
+import com.msp.helpdesk.repositories.PessoaRepository;
 import com.msp.helpdesk.services.exceptions.DataIntegrityViolationException;
 import com.msp.helpdesk.services.exceptions.ObjectNotFoundException;
 

@@ -21,6 +21,7 @@ import com.msp.helpdesk.services.exceptions.ObjectNotFoundException;
 @Service
 public class ChamadoService {
 
+
 	@Autowired
 	private ClienteService clienteService;
 
@@ -32,7 +33,7 @@ public class ChamadoService {
 
 	public Chamado findById(Integer id) {
 		Optional<Chamado> obj = repository.findById(id);
-		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! ID: " + id));
+		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! ID: " + id)); 
 	}
 
 	public List<Chamado> findAll() {
@@ -46,10 +47,10 @@ public class ChamadoService {
 
 	public Chamado update(Integer id, @Valid ChamadoDTO objDTO) {
 		objDTO.setId(id);
-		Chamado oldObj = findById(id);
+		Chamado oldObj = findById(id); 
 		oldObj = newChamado(objDTO);
 
-		return repository.save(oldObj);
+		return repository.save(oldObj); 
 	}
 
 	private Chamado newChamado(ChamadoDTO obj) {
@@ -57,7 +58,7 @@ public class ChamadoService {
 		Cliente cliente = clienteService.findById(obj.getCliente());
 
 		Chamado chamado = new Chamado();
-		if (obj.getId() != null) {
+		if (obj.getId() != null) { 
 			chamado.setId(obj.getId());
 		}
 		

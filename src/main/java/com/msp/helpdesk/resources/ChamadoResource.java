@@ -29,7 +29,7 @@ public class ChamadoResource {
 	private ChamadoService service;
 
 	@GetMapping("/{id}")
-	private ResponseEntity<ChamadoDTO> findById(@PathVariable Integer id) {
+	public ResponseEntity<ChamadoDTO> findById(@PathVariable Integer id) {
 		Chamado obj = service.findById(id);
 		return ResponseEntity.ok().body(new ChamadoDTO(obj));
 	}
@@ -39,7 +39,8 @@ public class ChamadoResource {
 		List<Chamado> list = service.findAll();
 		List<ChamadoDTO> listDTO = list.stream().map(x -> new ChamadoDTO(x)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDTO);
-	}
+		
+	} 
 
 	@PostMapping
 	public ResponseEntity<ChamadoDTO> create(@Valid @RequestBody ChamadoDTO objDTO) {
